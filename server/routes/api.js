@@ -16,8 +16,8 @@ router.get('/city/:cityName', function(req,res){
             const newCity = new City ({
                 name: result.name,
                 temperature: result.main.temp,
-                condition: ``, //???
-                conditionPic: `` //???
+                condition: result.weather[0].description, 
+                conditionPic: result.weather[0].icon 
             })
             City.findOne({ name: newCity.name }, function(err, foundCity) {
                 if (!foundCity) {
