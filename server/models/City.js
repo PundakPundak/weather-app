@@ -5,8 +5,8 @@ const citySchema = new Schema({
     name: String,
     temperature: Number,
     condition: String,
-    conditionPic: String
+    conditionPic: String    
 })
 
-const Expense = mongoose.model("expense", expenseSchema)
-module.exports = Expense
+const City = mongoose.model("city", citySchema)
+module.exports = City
