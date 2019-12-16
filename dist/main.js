@@ -1,32 +1,36 @@
-const tempManger = new TempManager()
+// <li><img src={{conditionPic}} height="42" width="42"></li> 
+
+const tempManager = new TempManager()
 const renderer = new Renderer()
 
 const loadPage = function () {
-    tempManger.getDataFromDB()
-    renderer.renderData(tempManger.cityData)
+    console.log(`main.js: Started loadPage()`)
+    tempManager.getDataFromDB()
+    renderer.renderData(tempManager.cityData)
 }
 
-const handleSearch = async function(cityInput) {
-    await tempManger.getCityData(cityInput)
-    renderer.renderData(tempManger.cityData)
-}
-
-$("button").on("click", async function handleSearch() {
-    await tempManger.getCityData( $("#city-input").val() )
-    renderer.renderData(tempManger.cityData)
+$("#search-button").on("click", async function handleSearch() {
+    console.log(`main.js: Started handleSearch()`)
+    await tempManager.getCityData( $("#cityName-input").val() )
+    console.log(`main.js: tempManager.cityData[0].name = ${tempManager.cityData[0].name}`)
+    renderer.renderData(tempManager.cityData)
+    loadPage()
 })
 
 $(".save-button").on("click", async function saveCity() {
+    console.log(`Started: saveCity()`)
     const cityName = $(this).closest().find(".city-name")
-    await tempManger.getCityData( cityName )
-    renderer.renderData(tempManger.cityData)
+    console.log(cityName)
+    await tempManager.getCityData( cityName )
+    renderer.renderData(tempManager.cityData)
+    loadPage()
 })
 
 $(".remove-button").on("click", async function removeCity() {
     const cityName = $(this).closest().find(".city-name")
-    await tempManger.removeCity( cityName )
-
-    //loadPage()
+    console.log(cityName)
+    await tempManager.removeCity( cityName )
+    loadPage()
 })
 
 loadPage()

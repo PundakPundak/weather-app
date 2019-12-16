@@ -5,18 +5,18 @@
 </head>
 
 <body>
-    <button> SEARCH </button>
+    <input type="text" placeholder="Enter City name" id = "cityName-input">
+    <button id = "search-button"> SEARCH </button>
     <div id="container">     
-        <!-- Handlebars script goes here -->   
     </div>
+    
     <script id="cities-template" type="text/x-handlebars-template">
-        {{#each data}}    
+        {{#each allCityData}}    
             <div>
                 <ul> 
                     <li class="city-name">City name: {{name}}</li>
                     <li>Temperature: {{temperature}}</li>
                     <li>Condition: {{condition}}</li>
-                    <li><img src={{conditionPic}} height="42" width="42"></li>
                 </ul>
                 <button class = "save-button"> Save </button>
                 <button class = "remove-button"> Remove </button>

@@ -19,13 +19,14 @@ router.get('/city/:cityName', function(req,res){
                 condition: result.weather[0].description, 
                 conditionPic: result.weather[0].icon 
             })
+            console.log(newCity)
             City.findOne({ name: newCity.name }, function(err, foundCity) {
                 if (!foundCity) {
                         newCity.save()
-                        res.send(newCity) 
+                        res.send(newCity)
                     }
                 else {
-                        res.send(`${newCity.name} is allready in the database`) 
+                        res.end() //()`${newCity.name} is allready in the database`) 
                 }
             })
         }

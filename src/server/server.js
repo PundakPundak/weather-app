@@ -11,8 +11,8 @@ const path = require('path')
 // mongoose.connect('mongodb://localhost/Cities', { useNewUrlParser: true })
 
 //Dist and node_modules
-app.use(express.static(path.join(__dirname, '..', 'dist')))
-app.use(express.static(path.join(__dirname, '..', 'node_modules')))
+app.use(express.static(path.join(__dirname, '..', '..', 'dist')))
+app.use(express.static(path.join(__dirname, '..', '..', 'node_modules')))
 //
 console.log(__dirname)
 
