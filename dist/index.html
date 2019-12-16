@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Weather App</title><link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+</head>
+
+<body>
+    <div id="container">     
+        <!-- Handlebars script goes here -->   
+    </div>
+    <script id="cities-template" type="text/x-handlebars-template">
+        {{#each data}}    
+            <div>
+                <ul> 
+                    <li>City name: {{name}}</li>
+                    <li>Temperature: {{temperature}}</li>
+                    <li>Condition: {{condition}}</li>
+                    <li><img src={{conditionPic}} height="42" width="42"></li>
+                </ul>
+            </div>
+        {{/each}}
+    </script>
+
+    <script src="./jquery/dist/jquery.js"></script>
+    <script src="./handlebars/dist/handlebars.js"></script>
+    <script src="TempManager.js"></script>
+    <script src="Renderer.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>

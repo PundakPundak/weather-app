@@ -25,7 +25,54 @@ router.get('/city/:cityName', function(req,res){
                     }
                 })
         }
-    res.send(response)    
+        res.send(newCity)   
     }) 
 })
+
+router.get('/cities', function(req,res){
+    City.find( function(err,cities){
+        res.send(cities)
+    })
+})
+
+// {
+//     "name": "London",
+//     "temperature": 270
+//     "condition": "light intensity drizzle",
+//     "icon": "09d"
+// }
+router.post('/city', function(req,res){
+    let newCity = new City({
+        name: req.body.name,
+        temperature: req.body.temperature,
+        condition: req.body.condition,
+        conditionPic: req.body.conditionPic
+    })
+    City.findOne({ name: newCity.name }, function(err, foundCity) {
+        if (!foundCity) {
+                newCity.save().then( function(city){
+                    console.log(`${city.name} was added successfully!`)
+                })
+            }
+        })
+    res.send(`${city.name} was added successfully!`)
+})
+
+router.delete('/city/:cityName', function(req,res){
+    const cityName = req.params.cityName
+    let newCity = new City()
+    City.findOne({ name: cityName }, function(err, foundCity) {
+        foundCity.remove(function (err) {
+            if (err = `null`) { 
+                console.log(`${cityName} was deleted successfully!`) 
+                res.send(`${cityName} was deleted successfully!`)
+            }
+            else { 
+                console.log(err)
+                res.send(err)
+             }
+        })
+    })
+})
+
 module.exports = router

@@ -13,9 +13,9 @@ app.use(express.static(path.join(__dirname, '..', 'dist')))
 app.use(express.static(path.join(__dirname, '..', 'node_modules')))
 //
 // Mongoose setup
-// const mongoose = require('mongoose')
-// const City = require('./server/model/City')
-// mongoose.connect('mongodb://localhost/Cities', { useNewUrlParser: true })
+const mongoose = require('mongoose')
+const City = require('./server/model/City')
+mongoose.connect('mongodb://localhost/Cities', { useNewUrlParser: true })
 
 const port = 3000
 app.listen(port, function () {
