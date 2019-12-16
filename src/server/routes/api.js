@@ -22,10 +22,13 @@ router.get('/city/:cityName', function(req,res){
             City.findOne({ name: newCity.name }, function(err, foundCity) {
                 if (!foundCity) {
                         newCity.save()
+                        res.send(newCity) 
                     }
-                })
+                else {
+                        res.send(`${newCity.name} is allready in the database`) 
+                }
+            })
         }
-        res.send(newCity)   
     }) 
 })
 
