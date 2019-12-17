@@ -10,7 +10,10 @@ class TempManager{
 
     async getCityData(cityName) {
         const APIdata = await $.get(`/city/${cityName}`)
-        this.cityData.push(APIdata)
+        console.log(APIdata)
+        if ( Object.values(APIdata)[0] != null ) {
+            this.cityData.push(APIdata)
+        }
     }
 
     async saveCity(cityName) {

@@ -26,7 +26,8 @@ router.get('/city/:cityName', function(req,res){
                         res.send(newCity)
                     }
                 else {
-                        res.end() //()`${newCity.name} is allready in the database`) 
+                        resultEmpty = null
+                        res.send({resultEmpty}) //()`${newCity.name} is allready in the database`) 
                 }
             })
         }
