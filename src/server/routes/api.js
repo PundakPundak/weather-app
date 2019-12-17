@@ -6,10 +6,10 @@ const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/Cities', { useNewUrlParser: true })
 //const moment = require('moment')
 apiKey = `a8b3baa4c177dddc72284392a1ba0982`
-
+apiRouteFirstPart = `http://api.openweathermap.org/data/2.5/weather?q=`
 router.get('/city/:cityName', function(req,res){
     const cityName = req.params.cityName
-    apiRoute = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`
+    apiRoute = `${apiRouteFirstPart}${cityName}&appid=${apiKey}`
     request(apiRoute, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             const result = JSON.parse(body) 
@@ -65,8 +65,8 @@ router.post('/city', function(req,res){
 
 router.delete('/city/:cityName', function(req,res){
     const cityName = req.params.cityName
-    City.find({ name: cityName },  function (err, city) {
-        City.remove(function (err) {
+    City.findOne({ name: cityName },  function (err, city) {
+        city.remove(function (err) {
             console.log(err) //usually this will be `null`, unless something went wrong
         })
     })
@@ -98,5 +98,27 @@ router.delete('/city/:cityName', function(req,res){
     //     }
     // })
 
+router.put('/city/:cityName', function(req,res){
+        const cityName = req.params.cityName
+        apiRoute = `${apiRouteFirstPart}${cityName}&appid=${apiKey}`
+        request(apiRoute, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                const result = JSON.parse(body) 
+                let cityToSave = new City({
+                    name: result.name,
+                    temperature: result.temperature,
+                    condition: result.condition,
+                    conditionPic: result.conditionPic
+                })
+                City.findOne({ name: cityName },  function (err, city) {
+                    city.remove(function (err) {
+                        console.log(err) //usually this will be `null`, unless something went wrong
+                    })
+                })
+                cityToSave.save()
+                res.send(result)
+            }
+        })
+})
 
 module.exports = router

@@ -33,9 +33,16 @@ $("#container").on("click", ".save-button", async function handleSaveCity() {
 })
 
 $("#container").on("click", ".remove-button", async function handleRemoveCity() {
-    const cityName = $(this).closest().find(".city-name").text()
+    const cityName = $(this).closest(`div`).find(".city-name").text()
     console.log(cityName)
     await tempManager.removeCity( cityName )
+    renderer.renderData(tempManager.cityData)
+})
+
+$("#container").on("click", ".update-button", async function handleUpdateCity() {
+    const cityName = $(this).closest(`div`).find(".city-name").text()
+    console.log(cityName)
+    await tempManager.updateCity( cityName )
     renderer.renderData(tempManager.cityData)
 })
 
