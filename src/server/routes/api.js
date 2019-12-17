@@ -13,28 +13,29 @@ router.get('/city/:cityName', function(req,res){
     request(apiRoute, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             const result = JSON.parse(body) 
-            const newCity = new City ({
-                name: result.name,
-                temperature: result.main.temp,
-                condition: result.weather[0].description, 
-                conditionPic: result.weather[0].icon 
-            })
-            City.findOne({ name: newCity.name }, function(err, foundCity) {
-                if (!foundCity) {
-                        //newCity.save()
-                        res.send(newCity)
-                    }
-                else {
-                        resultEmpty = null
-                        res.send({resultEmpty}) //()`${newCity.name} is allready in the database`) 
-                }
-            })
+            // const newCity = new City ({
+            //     name: result.name,
+            //     temperature: result.main.temp,
+            //     condition: result.weather[0].description, 
+            //     conditionPic: `http://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png` 
+            // })
+            // City.find({ name: newCity.name }, function(err, foundCity) {
+            //     if (!foundCity) {
+            //             //newCity.save()
+            //             res.send(newCity)
+            //         }
+            //     else {
+            //             resultEmpty = null
+            //             res.send({resultEmpty}) //()`${newCity.name} is allready in the database`) 
+            //     }
+            //})
+            res.send(result)
         }
     }) 
 })
 
 router.get('/cities', function(req,res){
-    City.find( function(err,cities){
+    City.find({}, function(err,cities){
         res.send(cities)
     })
 })
@@ -46,20 +47,20 @@ router.get('/cities', function(req,res){
 //     "icon": "09d"
 // }
 router.post('/city', function(req,res){
-    let newCity = new City({
+    let cityToSave = new City({
         name: req.body.name,
         temperature: req.body.temperature,
         condition: req.body.condition,
         conditionPic: req.body.conditionPic
     })
-    City.findOne({ name: newCity.name }, function(err, foundCity) {
+    City.findOne({ name: cityToSave.name }, function(err, foundCity) {
         if (!foundCity) {
-                newCity.save().then( function(city){
-                    console.log(`${city.name} was added successfully!`)
+            cityToSave.save().then( function(city){
+                    console.log(`${cityToSave.name} was added successfully!`)
                 })
             }
         })
-    res.send(`${newCity.name} was added successfully!`)
+    res.send(`${cityToSave.name} was added successfully!`)
 })
 
 router.delete('/city/:cityName', function(req,res){
@@ -70,6 +71,7 @@ router.delete('/city/:cityName', function(req,res){
         })
     })
     res.end()
+})
     // City.findOne({ name: cityName }).then().remove(function (err) {
     //                 if (err = `null`) { 
     //                     console.log(`${cityName} was deleted successfully!`) 
@@ -95,6 +97,6 @@ router.delete('/city/:cityName', function(req,res){
     //         })
     //     }
     // })
-})
+
 
 module.exports = router

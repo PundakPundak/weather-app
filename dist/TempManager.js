@@ -12,19 +12,26 @@ class TempManager{
     async getCityData(cityName) {
             const APIdata = await $.get(`/city/${cityName}`)
             console.log(APIdata)
-            if ( Object.values(APIdata)[0] != null ) {
+            const newCity = {
+                name: APIdata.name,
+                temperature: APIdata.main.temp,
+                condition: `${APIdata.weather[0].main} ${APIdata.weather[0].description}`,
+                conditionPic: `http://openweathermap.org/img/wn/${APIdata.weather[0].icon}@2x.png`
+            }
+            //console.log( this.cityData.find(d => d.name == cityName) )
+            // if ( Object.values(APIdata)[0] != null ) {
                 if ( this.cityData.find(d => d.name == cityName) == undefined )
                 {
-                    this.cityData.push(APIdata)
+                    this.cityData.push(newCity)
                 }
-            }
+            //}
         
     }
 
     async saveCity(cityName) {
-        let newCity = this.cityData.find(d => d.name == cityName)
-        const saveCitydata = await $.post(`/city`, newCity) 
-        console.log(saveCitydata)
+        let cityToSave = this.cityData.find(d => d.name == cityName)
+        const saveCityRes = await $.post(`/city`, cityToSave) 
+        console.log(saveCityRes)
     }
     
     async removeCity(cityName) {
