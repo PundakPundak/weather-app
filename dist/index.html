@@ -12,15 +12,18 @@
     
     <script id="cities-template" type="text/x-handlebars-template">
         {{#each allCityData}}    
-            <div>
+            <div> 
+                <div class = "city-name">
+                    {{name}}
+                </div>
                 <ul> 
-                    <li class="city-name">City name: {{name}}</li>
                     <li>Temperature: {{temperature}}</li>
                     <li>Condition: {{condition}}</li>
                 </ul>
                 <button class = "save-button"> Save </button>
                 <button class = "remove-button"> Remove </button>
             </div>
+            
         {{/each}}
     </script>
 

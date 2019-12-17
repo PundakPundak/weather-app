@@ -4,21 +4,13 @@ class TempManager{
     }
 
     async getDataFromDB() {
-        console.log(`TempManager.js: Started getDataFromDB()`)
         const DBdata = await $.get(`/cities`)
-        if (DBdata.length >= 1) {
-            DBdata.forEach( d => this.cityData.push(d))
-        }
+        this.cityData = DBdata
     }
 
     async getCityData(cityName) {
-        console.log(`TempManager.js: Started getCityData()`)
         const APIdata = await $.get(`/city/${cityName}`)
-        //const APIdataParsed = JSON.parse(APIdata[0]) 
-        console.log(`TempManager.js: APIdata.condition= ${APIdata.condition}`)
         this.cityData.push(APIdata)
-        console.log(`TempManager.js: this.cityData[0].name = ${this.cityData[0].name}`)
-
     }
 
     async saveCity(cityName) {
