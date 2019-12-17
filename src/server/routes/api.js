@@ -19,10 +19,9 @@ router.get('/city/:cityName', function(req,res){
                 condition: result.weather[0].description, 
                 conditionPic: result.weather[0].icon 
             })
-            console.log(newCity)
             City.findOne({ name: newCity.name }, function(err, foundCity) {
                 if (!foundCity) {
-                        newCity.save()
+                        //newCity.save()
                         res.send(newCity)
                     }
                 else {
@@ -60,24 +59,42 @@ router.post('/city', function(req,res){
                 })
             }
         })
-    res.send(`${city.name} was added successfully!`)
+    res.send(`${newCity.name} was added successfully!`)
 })
 
 router.delete('/city/:cityName', function(req,res){
     const cityName = req.params.cityName
-    let newCity = new City()
-    City.findOne({ name: cityName }, function(err, foundCity) {
-        foundCity.remove(function (err) {
-            if (err = `null`) { 
-                console.log(`${cityName} was deleted successfully!`) 
-                res.send(`${cityName} was deleted successfully!`)
-            }
-            else { 
-                console.log(err)
-                res.send(err)
-             }
+    City.find({ name: cityName },  function (err, city) {
+        City.remove(function (err) {
+            console.log(err) //usually this will be `null`, unless something went wrong
         })
     })
+    res.end()
+    // City.findOne({ name: cityName }).then().remove(function (err) {
+    //                 if (err = `null`) { 
+    //                     console.log(`${cityName} was deleted successfully!`) 
+    //                     res.send(`${cityName} was deleted successfully!`)
+    //                 }
+    //                 else { 
+    //                     console.log(err)
+    //                     res.send(err)
+    //                 }
+    // })
+    // City.findOne({ name: cityName }, function(err, foundCity) {
+    //     if (foundCity)
+    //     {
+    //         foundCity.remove(function (err) {
+    //             if (err = `null`) { 
+    //                 console.log(`${cityName} was deleted successfully!`) 
+    //                 res.send(`${cityName} was deleted successfully!`)
+    //             }
+    //             else { 
+    //                 console.log(err)
+    //                 res.send(err)
+    //             }
+    //         })
+    //     }
+    // })
 })
 
 module.exports = router

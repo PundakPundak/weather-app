@@ -5,15 +5,20 @@ class TempManager{
 
     async getDataFromDB() {
         const DBdata = await $.get(`/cities`)
+        console.log(DBdata)
         this.cityData = DBdata
     }
 
     async getCityData(cityName) {
-        const APIdata = await $.get(`/city/${cityName}`)
-        console.log(APIdata)
-        if ( Object.values(APIdata)[0] != null ) {
-            this.cityData.push(APIdata)
-        }
+            const APIdata = await $.get(`/city/${cityName}`)
+            console.log(APIdata)
+            if ( Object.values(APIdata)[0] != null ) {
+                if ( this.cityData.find(d => d.name == cityName) == undefined )
+                {
+                    this.cityData.push(APIdata)
+                }
+            }
+        
     }
 
     async saveCity(cityName) {
@@ -23,7 +28,13 @@ class TempManager{
     }
     
     async removeCity(cityName) {
-        const deleteCitydata = await $.delete(`/city/${cityName}`) 
-        console.log(deleteCitydata)
+        //const deleteCitydata = await $.delete(`/city/${cityName}`) 
+        await $.ajax({
+            url: '/city/${cityName}',
+            type: 'DELETE',
+            success: function(result) {
+                console.log(result)
+            }
+        })
     }   
 }

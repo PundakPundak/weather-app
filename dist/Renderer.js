@@ -1,4 +1,8 @@
 class Renderer{
+    emptyContainer() {
+        $("#container").empty()
+
+    }
     renderData(allCityData) {
         $("#container").empty()
         const allCityDataObj = {allCityData}
