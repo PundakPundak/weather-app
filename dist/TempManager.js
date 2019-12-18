@@ -5,27 +5,21 @@ class TempManager{
 
     async getDataFromDB() {
         const DBdata = await $.get(`/cities`)
-        console.log(DBdata)
         this.cityData = DBdata
     }
 
     async getCityData(cityName) {
             const APIdata = await $.get(`/city/${cityName}`)
-            console.log(APIdata)
             const newCity = {
                 name: APIdata.name,
                 temperature: APIdata.main.temp,
                 condition: `${APIdata.weather[0].main} ${APIdata.weather[0].description}`,
                 conditionPic: `http://openweathermap.org/img/wn/${APIdata.weather[0].icon}@2x.png`
             }
-            //console.log( this.cityData.find(d => d.name == cityName) )
-            // if ( Object.values(APIdata)[0] != null ) {
-                if ( this.cityData.find(d => d.name == cityName) == undefined )
+            if ( this.cityData.find(d => d.name == cityName) == undefined )
                 {
                     this.cityData.push(newCity)
                 }
-            //}
-        
     }
 
     async saveCity(cityName) {
@@ -35,7 +29,6 @@ class TempManager{
     }
     
     async removeCity(cityName) {
-        //const deleteCitydata = await $.delete(`/city/${cityName}`) 
         await $.ajax({
             url: `/city/${cityName}`,
             type: 'DELETE',
@@ -46,7 +39,6 @@ class TempManager{
     }  
     
     async updateCity(cityName) {
-        //let cityToSave = this.cityData.find(d => d.name == cityName)
         await $.ajax({
             url: `/city/${cityName}`,
             type: 'PUT',
