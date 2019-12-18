@@ -50,7 +50,7 @@ class TempManager{
         await $.ajax({
             url: `/city/${cityName}`,
             type: 'PUT',
-            success: function(updateCityRes) {
+            success: (updateCityRes) =>  {
                 console.log(updateCityRes)
                 const updatedCity = {
                     name: updateCityRes.name,

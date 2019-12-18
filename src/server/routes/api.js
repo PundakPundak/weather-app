@@ -65,10 +65,12 @@ router.post('/city', function(req,res){
 
 router.delete('/city/:cityName', function(req,res){
     const cityName = req.params.cityName
-    City.findOne({ name: cityName },  function (err, city) {
-        city.remove(function (err) {
-            console.log(err) //usually this will be `null`, unless something went wrong
-        })
+    City.findOne({ name: cityName }, function (err, foundCity) {
+        if (foundCity) {
+            foundCity.remove(function (err) {
+                console.log(err) //usually this will be `null`, unless something went wrong
+            })
+        }
     })
     res.end()
 })
@@ -110,10 +112,12 @@ router.put('/city/:cityName', function(req,res){
                     condition: result.condition,
                     conditionPic: result.conditionPic
                 })
-                City.findOne({ name: cityName },  function (err, city) {
-                    city.remove(function (err) {
-                        console.log(err) //usually this will be `null`, unless something went wrong
-                    })
+                City.findOne({ name: cityName },  function (err, foundCity) {
+                    if (foundCity) {
+                        foundCity.remove(function (err) {
+                            console.log(err) //usually this will be `null`, unless something went wrong
+                        })
+                    }
                 })
                 cityToSave.save()
                 res.send(result)
